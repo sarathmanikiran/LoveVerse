@@ -1,0 +1,29 @@
+{
+  "entities": {
+    "Proposal": {
+      "title": "Proposal",
+      "description": "A generated proposal experience",
+      "type": "object",
+      "properties": {
+        "creatorId": { "type": "string" },
+        "partnerName": { "type": "string" },
+        "creatorName": { "type": "string" },
+        "theme": { "type": "string" },
+        "memories": { "type": "array" },
+        "voiceMessageUrl": { "type": "string" },
+        "backgroundMusicUrl": { "type": "string" },
+        "letterContent": { "type": "string" },
+        "reasons": { "type": "array" },
+        "finalQuestion": { "type": "string" },
+        "createdAt": { "type": "timestamp" }
+      },
+      "required": ["creatorId", "partnerName", "creatorName", "theme"]
+    }
+  },
+  "firestore": {
+    "/proposals/{proposalId}": {
+      "schema": "Proposal",
+      "description": "Contains user-generated proposal experiences"
+    }
+  }
+}

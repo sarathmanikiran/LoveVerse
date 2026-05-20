@@ -1,0 +1,45 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) { 
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); 
+    }
+    
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    function isSignedIn() { return request.auth != null; }
+
+    function isValidProposal(data) {
+      return data.keys().hasAll(['creatorId', 'partnerName', 'creatorName', 'theme', 'createdAt'])
+          && data.creatorId == request.auth.uid
+          && data.partnerName is string && data.partnerName.size() <= 200
+          && data.creatorName is string && data.creatorName.size() <= 200
+          && data.theme is string && data.theme.size() <= 50;
+    }
+
+    match /proposals/{proposalId} {
+      // Anyone can read a proposal to view it
+      allow read: if isValidId(proposalId);
+      
+      allow create: if isSignedIn() 
+        && isValidId(proposalId)
+        && isValidProposal(incoming());
+
+      allow update: if isSignedIn() 
+        && isValidId(proposalId)
+        && existing().creatorId == request.auth.uid
+        && isValidProposal(incoming())
+        && incoming().creatorId == existing().creatorId
+        && incoming().createdAt == existing().createdAt;
+
+      allow delete: if isSignedIn()
+        && isValidId(proposalId)
+        && existing().creatorId == request.auth.uid;
+    }
+  }
+}

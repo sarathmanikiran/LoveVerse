@@ -1,0 +1,6 @@
+{
+  "name": "LoveVerse",
+  "description": "A cinematic, fully responsive romantic proposal website.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
