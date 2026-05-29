@@ -40,13 +40,15 @@ export default function CreatorDashboard() {
       setUser(u);
       if (u && step === 0) {
         setStep(1);
-      }
-    });
-    return () => unsubscribe();
-  }, [step]);
-
-  const handleLogin = async () => {
-    try {
+          }
+        });
+        return () => unsubscribe();
+      }, [step]);
+    
+      const isIframe = window.self !== window.top;
+    
+      const handleLogin = async () => {
+        try {
       const cred = await loginWithGoogle();
       setUser(cred.user);
       setStep(1);
@@ -174,6 +176,11 @@ export default function CreatorDashboard() {
           <button onClick={handleLogin} className="w-full bg-white/10 hover:bg-white/20 border border-white/20 px-6 py-3 rounded-full transition text-white font-medium flex items-center justify-center gap-2">
              Sign in with Google
           </button>
+          {isIframe && (
+            <p className="mt-4 text-xs text-red-300 bg-red-900/40 p-3 rounded-xl border border-red-500/30">
+              Note: Google Sign-In may fail within a preview frame. If it doesn't work, please open this app in a new tab (using the button in the top right).
+            </p>
+          )}
         </div>
       </div>
     );
