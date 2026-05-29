@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import confetti from 'canvas-confetti';
 import { Heart } from 'lucide-react';
+import { FloatingHearts } from './FloatingHearts';
 
 interface ProposalSectionProps {
   partnerName: string;
@@ -44,6 +45,8 @@ export function ProposalSection({ partnerName, finalQuestion = "Will you stay wi
       {/* Background glow effects */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-pink-500/10 via-[#05040a] to-[#05040a] pointer-events-none" />
       
+      {accepted && <FloatingHearts />}
+
       <div className="max-w-4xl w-full text-center relative z-10">
         <AnimatePresence mode="wait">
           {!accepted ? (
