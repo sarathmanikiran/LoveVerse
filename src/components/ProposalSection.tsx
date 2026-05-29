@@ -47,7 +47,7 @@ export function ProposalSection({ partnerName, finalQuestion = "Will you stay wi
       
       {accepted && <FloatingHearts />}
 
-      <div className="max-w-4xl w-full text-center relative z-10">
+      <div className="max-w-4xl w-full text-center relative z-10 flex flex-col items-center justify-center">
         <AnimatePresence mode="wait">
           {!accepted ? (
             <motion.div
@@ -56,7 +56,7 @@ export function ProposalSection({ partnerName, finalQuestion = "Will you stay wi
               whileInView={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, y: -50, scale: 1.1 }}
               transition={{ duration: 0.8 }}
-              className="flex flex-col items-center"
+              className="flex flex-col items-center w-full"
             >
               <motion.div 
                 animate={{ scale: [1, 1.1, 1] }} 
@@ -73,7 +73,7 @@ export function ProposalSection({ partnerName, finalQuestion = "Will you stay wi
                 </span>
               </h2>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-16 mt-min-h-[100px] relative">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-16 relative">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -91,22 +91,6 @@ export function ProposalSection({ partnerName, finalQuestion = "Will you stay wi
                 >
                   OBVIOUSLY YES 😭
                 </motion.button>
-
-                {/* Playful "No" button that shrinks or disappears if you hover enough */}
-                {noHoverCount < 3 && (
-                  <motion.button
-                    onHoverStart={handleNoHover}
-                    onClick={handleNoHover}
-                    animate={
-                      noHoverCount === 1 ? { x: 50, scale: 0.8 } :
-                      noHoverCount === 2 ? { x: -50, scale: 0.6 } : {}
-                    }
-                    transition={{ type: 'spring', stiffness: 300, damping: 15 }}
-                    className="absolute bottom-[-80px] sm:static sm:bottom-auto px-8 py-3 rounded-full text-pink-300/50 hover:text-pink-300/20 text-sm opacity-50"
-                  >
-                    No
-                  </motion.button>
-                )}
               </div>
             </motion.div>
           ) : (
@@ -115,7 +99,7 @@ export function ProposalSection({ partnerName, finalQuestion = "Will you stay wi
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, type: "spring", bounce: 0.5 }}
-              className="flex flex-col items-center"
+              className="flex flex-col items-center w-full"
             >
               <h2 className="text-6xl md:text-8xl font-serif text-white mb-8 drop-shadow-[0_0_30px_rgba(255,255,255,0.5)]">
                 She said Yes! 💍
@@ -127,6 +111,24 @@ export function ProposalSection({ partnerName, finalQuestion = "Will you stay wi
           )}
         </AnimatePresence>
       </div>
+
+      {/* Playful "No" button absolutely positioned at the bottom of the section */}
+      {!accepted && noHoverCount < 3 && (
+        <motion.div className="absolute bottom-12 left-0 right-0 flex justify-center z-20 pointer-events-auto">
+          <motion.button
+            onHoverStart={handleNoHover}
+            onClick={handleNoHover}
+            animate={
+              noHoverCount === 1 ? { x: 50, scale: 0.8 } :
+              noHoverCount === 2 ? { x: -50, scale: 0.6 } : {}
+            }
+            transition={{ type: 'spring', stiffness: 300, damping: 15 }}
+            className="px-8 py-3 rounded-full text-pink-300/50 hover:text-pink-300/20 text-sm opacity-50 backdrop-blur-md bg-white/5 border border-white/10"
+          >
+            No
+          </motion.button>
+        </motion.div>
+      )}
     </section>
   );
 }
