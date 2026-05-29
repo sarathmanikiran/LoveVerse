@@ -9,7 +9,7 @@ interface LetterSectionProps {
 export function LetterSection({ content }: LetterSectionProps) {
   // We can use a simple stagger effect for the paragraphs
   return (
-    <section className="min-h-screen py-24 flex items-center justify-center relative px-4">
+    <section id="letter" className="min-h-screen py-24 flex items-center justify-center relative px-4">
       <motion.div 
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}

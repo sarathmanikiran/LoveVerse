@@ -40,7 +40,7 @@ export function ProposalSection({ partnerName, finalQuestion = "Will you stay wi
   };
 
   return (
-    <section className="min-h-screen py-24 flex items-center justify-center px-4 relative overflow-hidden">
+    <section id="proposal" className="min-h-screen py-24 flex items-center justify-center px-4 relative overflow-hidden">
       {/* Background glow effects */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-pink-500/10 via-[#05040a] to-[#05040a] pointer-events-none" />
       

@@ -7,7 +7,7 @@ interface ReasonsSectionProps {
 
 export function ReasonsSection({ reasons }: ReasonsSectionProps) {
   return (
-    <section className="py-32 px-4 relative max-w-7xl mx-auto">
+    <section id="reasons" className="py-32 px-4 relative max-w-7xl mx-auto">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

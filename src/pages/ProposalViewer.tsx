@@ -15,6 +15,9 @@ import { AudioPlayer } from '../components/AudioPlayer';
 import { Heart } from 'lucide-react';
 import { SiteConfig } from '../types';
 
+import { ScrollNav } from '../components/ScrollNav';
+import { ShareButton } from '../components/ShareButton';
+
 export default function ProposalViewer() {
   const { proposalId } = useParams<{ proposalId: string }>();
   const [config, setConfig] = useState<SiteConfig | null>(null);
@@ -92,10 +95,12 @@ export default function ProposalViewer() {
             transition={{ duration: 2 }}
             className="relative z-10 font-sans"
           >
+            <ScrollNav />
+
             {/* Soft top gradient */}
             <div className="absolute top-0 inset-x-0 h-64 bg-gradient-to-b from-black/50 to-transparent pointer-events-none" />
 
-            <div className="max-w-7xl mx-auto px-4 pt-20 pb-10 sm:pt-32">
+            <div id="intro" className="max-w-7xl mx-auto px-4 pt-20 pb-10 sm:pt-32">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-24 max-w-5xl mx-auto">
                 {/* Voice Message Player */}
                 {config.voiceMessageUrl && (
@@ -147,6 +152,7 @@ export default function ProposalViewer() {
                  <p className="text-pink-400/60 text-sm tracking-widest uppercase mt-8 pt-8 border-t border-pink-400/20 max-w-xs mx-auto">
                    Thank you for being part of my life
                  </p>
+                 <ShareButton />
                </motion.div>
             </footer>
           </motion.div>
