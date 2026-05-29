@@ -54,7 +54,9 @@ export default function CreatorDashboard() {
       setStep(1);
     } catch (e: any) {
       console.error(e);
-      alert(e.message || "Failed to sign in. Please try again.");
+      if (e?.code !== 'auth/popup-closed-by-user') {
+        alert(e.message || "Failed to sign in. Please try again.");
+      }
     }
   };
 
