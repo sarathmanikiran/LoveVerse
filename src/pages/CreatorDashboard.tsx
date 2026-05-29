@@ -50,8 +50,9 @@ export default function CreatorDashboard() {
       const cred = await loginWithGoogle();
       setUser(cred.user);
       setStep(1);
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
+      alert(e.message || "Failed to sign in. Please try again.");
     }
   };
 
