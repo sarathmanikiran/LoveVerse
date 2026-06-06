@@ -2,14 +2,20 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
 import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { getAnalytics } from 'firebase/analytics';
+import { getAnalytics, isSupported } from 'firebase/analytics';
 import firebaseConfig from '../firebase-applet-config.json';
 
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
 export const storage = getStorage(app);
-export const analytics = getAnalytics(app);
+
+export let analytics: any = null;
+isSupported().then((supported) => {
+  if (supported) {
+    analytics = getAnalytics(app);
+  }
+});
 
 export const loginWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
@@ -19,11 +25,13 @@ export const loginWithGoogle = async () => {
         if (error.code === 'auth/unauthorized-domain') {
             const domain1 = 'ais-dev-k7dusnon3q5vjzkxviv2qd-96989193973.asia-southeast1.run.app';
             const domain2 = 'ais-pre-k7dusnon3q5vjzkxviv2qd-96989193973.asia-southeast1.run.app';
+            const domain3 = 'loveverse1432.vercel.app';
             throw new Error(
               `Firebase Error: Unauthorized domain.\n` +
               `Please add the following domains to your Firebase Project's Authorized Domains in Authentication -> Settings -> Authorized domains:\n` +
               `- ${domain1}\n` +
-              `- ${domain2}`
+              `- ${domain2}\n` +
+              `- ${domain3}`
             );
         }
         throw error;
