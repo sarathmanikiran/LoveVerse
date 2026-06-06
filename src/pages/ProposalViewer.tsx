@@ -14,6 +14,7 @@ import { CountdownSection } from '../components/CountdownSection';
 import { AudioPlayer } from '../components/AudioPlayer';
 import { Heart } from 'lucide-react';
 import { SiteConfig } from '../types';
+import { Helmet } from 'react-helmet-async';
 
 import { ScrollNav } from '../components/ScrollNav';
 import { ShareButton } from '../components/ShareButton';
@@ -77,6 +78,16 @@ export default function ProposalViewer() {
 
   return (
     <div className="relative min-h-screen">
+      <Helmet>
+        <title>{`A Message For ${config.partnerName}`}</title>
+        <meta property="og:title" content={`A Message For ${config.partnerName}`} />
+        <meta property="og:description" content="I have something special to ask you..." />
+        {config.gallery && config.gallery.length > 0 && (
+          <meta property="og:image" content={config.gallery[0].url} />
+        )}
+        <meta name="twitter:card" content="summary_large_image" />
+      </Helmet>
+
       <ParticleBackground />
 
       <AnimatePresence mode="wait">
