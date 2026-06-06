@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Heart, Upload, Music, ArrowRight, Share2, Download, Eye } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { auth, db, storage, loginWithGoogle, handleFirestoreError, OperationType } from '../firebase';
+import { toast } from 'sonner';
+import { auth, db, loginWithGoogle } from '../firebase';
 import { doc, setDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { QRCodeSVG } from 'qrcode.react';
@@ -52,10 +53,11 @@ export default function CreatorDashboard() {
       const cred = await loginWithGoogle();
       setUser(cred.user);
       setStep(1);
+      toast.success("Successfully signed in!");
     } catch (e: any) {
       console.error(e);
       if (e?.code !== 'auth/popup-closed-by-user') {
-        alert(e.message || "Failed to sign in. Please try again.");
+        toast.error(e.message || "Failed to sign in. Please try again.");
       }
     }
   };
@@ -124,7 +126,7 @@ export default function CreatorDashboard() {
         // Warning: Voice files can be large, we just base64 it and hope it's small enough for Firestore (<1MB doc size).
         // For a true production app, use Storage. But for AI Studio preview, base64 works if small.
         if (voiceFile.size > 700000) {
-           alert("Voice message is too large. Please use a smaller file (< 700KB).");
+           toast.error("Voice message is too large. Please use a smaller file (< 700KB).");
            setLoading(false);
            return;
         }
@@ -157,9 +159,10 @@ export default function CreatorDashboard() {
       
       setProposalId(generatedId);
       setStep(5); // Success step
+      toast.success("Proposal created successfully! ❤️");
     } catch (e: any) {
       console.error("Submit error:", e);
-      alert("Error saving proposal: " + (e.message || "Unknown error"));
+      toast.error("Error saving proposal: " + (e.message || "Unknown error"));
     } finally {
       setLoading(false);
     }
@@ -369,7 +372,10 @@ export default function CreatorDashboard() {
                 <div className="flex bg-black/30 rounded-lg p-2 w-full max-w-sm border border-white/10">
                    <input readOnly value={proposalUrl} className="bg-transparent flex-1 text-sm px-2 text-white/70 outline-none" />
                    <button 
-                     onClick={() => navigator.clipboard.writeText(proposalUrl)}
+                     onClick={() => {
+                        navigator.clipboard.writeText(proposalUrl);
+                        toast.success("Link copied to clipboard!");
+                     }}
                      className="bg-white/10 px-3 py-1 rounded hover:bg-white/20 transition"
                    >
                      Copy
